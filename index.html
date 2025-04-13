@@ -505,6 +505,35 @@
                 padding: 20px;
             }
         }
+
+        /* 数字キーパッドのスタイル */
+        .num-pad {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+
+        .num-pad button {
+            padding: 10px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 6px;
+            background-color: #ddd;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .num-pad button:hover {
+            background-color: #ccc;
+        }
+
+        .num-pad button:active {
+            background-color: #bbb;
+        }
     </style>
 </head>
 <body>
@@ -524,7 +553,7 @@
                     <label for="userId">ユーザーID</label>
                     <div class="input-with-icon">
                         <i class="fas fa-user"></i>
-                        <input type="number" id="userId" name="userId" placeholder="ユーザーIDを入力" required>
+                        <input type="tel" id="userId" name="userId" placeholder="ユーザーIDを入力" required pattern="[0-9]*" inputmode="numeric">
                     </div>
                 </div>
                 
@@ -532,7 +561,7 @@
                     <label for="password">パスワード</label>
                     <div class="input-with-icon">
                         <i class="fas fa-lock"></i>
-                        <input type="number" id="password" name="password" placeholder="パスワードを入力" required>
+                        <input type="tel" id="password" name="password" placeholder="パスワードを入力" required pattern="[0-9]*" inputmode="numeric">
                     </div>
                 </div>
                 
