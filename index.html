@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>カード棚卸し - Modern Design</title>
+    <title>カード棚卸し - ログイン</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         :root {
@@ -32,6 +32,19 @@
             background-color: var(--bg-color);
             color: var(--text-color);
             line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        #loginPage, #inventoryPage {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #inventoryPage {
+            display: none;
         }
 
         .header-banner {
@@ -73,6 +86,106 @@
             font-size: 1.8em;
             font-weight: 700;
             letter-spacing: 1px;
+        }
+
+        /* ログインフォームのスタイル */
+        .login-container {
+            max-width: 400px;
+            width: 90%;
+            margin: 50px auto;
+            background-color: white;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            padding: 30px;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .login-title {
+            text-align: center;
+            font-size: 1.5em;
+            font-weight: 600;
+            margin-bottom: 25px;
+            color: var(--primary-color);
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group label {
+            font-size: 0.95em;
+            font-weight: 500;
+            color: var(--text-color);
+        }
+
+        .input-with-icon {
+            position: relative;
+        }
+
+        .input-with-icon i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+        }
+
+        .login-form input {
+            padding: 12px 15px 12px 45px;
+            font-size: 1em;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            width: 100%;
+            transition: var(--transition);
+        }
+
+        .login-form input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(58, 110, 165, 0.2);
+        }
+
+        .login-button {
+            padding: 12px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .login-button:hover {
+            background-color: var(--primary-hover);
+        }
+
+        #error-message {
+            color: var(--accent-color);
+            font-size: 0.9em;
+            text-align: center;
+            margin-top: 15px;
+            min-height: 20px;
+            font-weight: 500;
         }
 
         .inventory-section {
@@ -267,12 +380,56 @@
             font-weight: 500;
         }
 
+        /* QRコードセクション */
+        .qr-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 40px 0 20px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            width: 100%;
+            max-width: 350px;
+        }
+
+        .qr-title {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .qr-code {
+            width: 150px;
+            height: 150px;
+            margin-bottom: 15px;
+        }
+
+        .qr-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-size: 0.9em;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .qr-link:hover {
+            color: var(--primary-hover);
+            text-decoration: underline;
+        }
+
         footer {
             text-align: center;
             padding: 20px;
-            margin-top: 30px;
             color: var(--text-secondary);
             font-size: 0.85em;
+            margin-top: auto;
         }
 
         .no-results {
@@ -284,6 +441,28 @@
             display: none;
         }
 
+        /* ログアウトボタン */
+        .logout-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 8px 15px;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 6px;
+            font-size: 0.9em;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .logout-button:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
         @media (max-width: 768px) {
             .inventory-grid {
                 grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -291,6 +470,12 @@
             
             .header-title span {
                 font-size: 1.6em;
+            }
+
+            .logout-button {
+                right: 10px;
+                padding: 6px 12px;
+                font-size: 0.8em;
             }
         }
 
@@ -310,134 +495,259 @@
             .item-image-container {
                 height: 160px;
             }
+            
+            .qr-code {
+                width: 120px;
+                height: 120px;
+            }
+
+            .login-container {
+                padding: 20px;
+            }
         }
     </style>
 </head>
 <body>
-    <header class="header-banner">
-        <div class="header-title">
-            <i class="fas fa-layer-group"></i>
-            <span>カード棚卸し</span>
-        </div>
-    </header>
-
-    <div class="inventory-section">
-        <div class="search-container">
-            <div class="search-wrapper">
-                <i class="fas fa-search"></i>
-                <input type="text" id="searchInput" placeholder="商品を検索..." />
+    <!-- ログインページ -->
+    <div id="loginPage">
+        <header class="header-banner">
+            <div class="header-title">
+                <i class="fas fa-layer-group"></i>
+                <span>カード棚卸し</span>
             </div>
-        </div>
+        </header>
 
-        <div class="inventory-grid">
-            <div class="inventory-item">
-                <div class="item-image-container">
-                    <img src="images/Kamen Rider Battle Gambaregens.jpg" alt="仮面ライダーバトル ガンバレジェンズ" />
-                </div>
-                <div class="item-content">
-                    <label for="input1">仮面ライダーバトル ガンバレジェンズ</label>
-                    <div class="input-group">
-                        <input type="number" id="input1" placeholder="グラム数を入力" step="1" />
-                        <button onclick="calculate1()"><i class="fas fa-calculator"></i> 計算</button>
-                    </div>
-                    <div class="result-display">
-                        <p id="output1"></p>
+        <div class="login-container">
+            <div class="login-title">ログイン</div>
+            <form class="login-form" id="loginForm">
+                <div class="form-group">
+                    <label for="userId">ユーザーID</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="userId" name="userId" placeholder="ユーザーIDを入力" required>
                     </div>
                 </div>
-            </div>
-
-            <div class="inventory-item">
-                <div class="item-image-container">
-                    <img src="images/Where's Anpanman.jpg" alt="アンパンマンはどーこだ？2" />
-                </div>
-                <div class="item-content">
-                    <label for="input2">アンパンマンはどーこだ？2</label>
-                    <div class="input-group">
-                        <input type="number" id="input2" placeholder="グラム数を入力" step="1" />
-                        <button onclick="calculate2()"><i class="fas fa-calculator"></i> 計算</button>
-                    </div>
-                    <div class="result-display">
-                        <p id="output2"></p>
+                
+                <div class="form-group">
+                    <label for="password">パスワード</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="password" name="password" placeholder="パスワードを入力" required>
                     </div>
                 </div>
-            </div>
-
-            <div class="inventory-item">
-                <div class="item-image-container">
-                    <img src="images/Pico Pico Anpanman Go 2.jpg" alt="ピコピコアンパンマンごう2" />
-                </div>
-                <div class="item-content">
-                    <label for="input3">ピコピコアンパンマンごう2</label>
-                    <div class="input-group">
-                        <input type="number" id="input3" placeholder="グラム数を入力" step="1" />
-                        <button onclick="calculate3()"><i class="fas fa-calculator"></i> 計算</button>
-                    </div>
-                    <div class="result-display">
-                        <p id="output3"></p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="inventory-item">
-                <div class="item-image-container">
-                    <img src="images/Anpanman's Taiko de Dodan 2.jpg" alt="アンパンマンのたいこでどんどん2" />
-                </div>
-                <div class="item-content">
-                    <label for="input4">アンパンマンのたいこでどんどん2</label>
-                    <div class="input-group">
-                        <input type="number" id="input4" placeholder="グラム数を入力" step="1" />
-                        <button onclick="calculate4()"><i class="fas fa-calculator"></i> 計算</button>
-                    </div>
-                    <div class="result-display">
-                        <p id="output4"></p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="inventory-item">
-                <div class="item-image-container">
-                    <img src="images/pukapukasobakawasibainu.jpg" alt="ぷかぷかそばかわ。しばいぬ@36" />
-                </div>
-                <div class="item-content">
-                    <label for="input5">ぷかぷかそばかわ。しばいぬ@36</label>
-                    <div class="input-group">
-                        <input type="number" id="input5" placeholder="グラム数を入力" step="1" />
-                        <button onclick="calculate5()"><i class="fas fa-calculator"></i> 計算</button>
-                    </div>
-                    <div class="result-display">
-                        <p id="output5"></p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="inventory-item">
-                <div class="item-image-container">
-                    <img src="images/mocomocoheaclip.jpg" alt="ふわもこヘアクリップ" />
-                </div>
-                <div class="item-content">
-                    <label for="input6">ふわもこヘアクリップ@35</label>
-                    <div class="input-group">
-                        <input type="number" id="input6" placeholder="グラム数を入力" step="1" />
-                        <button onclick="calculate6()"><i class="fas fa-calculator"></i> 計算</button>
-                    </div>
-                    <div class="result-display">
-                        <p id="output6"></p>
-                    </div>
-                </div>
-            </div>
+                
+                <button type="submit" class="login-button">
+                    <i class="fas fa-sign-in-alt"></i>
+                    ログイン
+                </button>
+            </form>
+            <div id="error-message"></div>
         </div>
 
-        <div class="no-results" id="noResults">
-            <i class="fas fa-search" style="font-size: 2em; margin-bottom: 15px; opacity: 0.5;"></i>
-            <p>検索結果が見つかりませんでした</p>
-        </div>
+        <footer>
+            <p>© 2025 Matsuda All rights reserved.</p>
+        </footer>
     </div>
 
-    <footer>
-        <p>© 2025 Matsuda All rights reserved.</p>
-    </footer>
+    <!-- 在庫管理ページ -->
+    <div id="inventoryPage">
+        <header class="header-banner">
+            <div class="header-title">
+                <i class="fas fa-layer-group"></i>
+                <span>カード棚卸し</span>
+            </div>
+            <button id="logoutButton" class="logout-button">
+                <i class="fas fa-sign-out-alt"></i>
+                ログアウト
+            </button>
+        </header>
+
+        <div class="inventory-section">
+            <div class="search-container">
+                <div class="search-wrapper">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="筐体を検索..." />
+                </div>
+            </div>
+
+            <div class="inventory-grid">
+                <div class="inventory-item">
+                    <div class="item-image-container">
+                        <img src="images/Kamen Rider Battle Gambaregens.jpg" alt="仮面ライダーバトル ガンバレジェンズ" />
+                    </div>
+                    <div class="item-content">
+                        <label for="input1">仮面ライダーバトル ガンバレジェンズ</label>
+                        <div class="input-group">
+                            <input type="number" id="input1" placeholder="グラム数を入力" step="1" />
+                            <button onclick="calculate1()"><i class="fas fa-calculator"></i> 計算</button>
+                        </div>
+                        <div class="result-display">
+                            <p id="output1"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="inventory-item">
+                    <div class="item-image-container">
+                        <img src="images/Where's Anpanman.jpg" alt="アンパンマンはどーこだ？2" />
+                    </div>
+                    <div class="item-content">
+                        <label for="input2">アンパンマンはどーこだ？2</label>
+                        <div class="input-group">
+                            <input type="number" id="input2" placeholder="グラム数を入力" step="1" />
+                            <button onclick="calculate2()"><i class="fas fa-calculator"></i> 計算</button>
+                        </div>
+                        <div class="result-display">
+                            <p id="output2"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="inventory-item">
+                    <div class="item-image-container">
+                        <img src="images/Pico Pico Anpanman Go 2.jpg" alt="ピコピコアンパンマンごう2" />
+                    </div>
+                    <div class="item-content">
+                        <label for="input3">ピコピコアンパンマンごう2</label>
+                        <div class="input-group">
+                            <input type="number" id="input3" placeholder="グラム数を入力" step="1" />
+                            <button onclick="calculate3()"><i class="fas fa-calculator"></i> 計算</button>
+                        </div>
+                        <div class="result-display">
+                            <p id="output3"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="inventory-item">
+                    <div class="item-image-container">
+                        <img src="images/Anpanman's Taiko de Dodan 2.jpg" alt="アンパンマンのたいこでどんどん2" />
+                    </div>
+                    <div class="item-content">
+                        <label for="input4">アンパンマンのたいこでどんどん2</label>
+                        <div class="input-group">
+                            <input type="number" id="input4" placeholder="グラム数を入力" step="1" />
+                            <button onclick="calculate4()"><i class="fas fa-calculator"></i> 計算</button>
+                        </div>
+                        <div class="result-display">
+                            <p id="output4"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="inventory-item">
+                    <div class="item-image-container">
+                        <img src="images/pukapukasobakawasibainu.jpg" alt="coming soon" />
+                    </div>
+                    <div class="item-content">
+                        <label for="input5">coming soon</label>
+                        <div class="input-group">
+                            <input type="number" id="input5" placeholder="グラム数を入力" step="1" />
+                            <button onclick="calculate5()"><i class="fas fa-calculator"></i> 計算</button>
+                        </div>
+                        <div class="result-display">
+                            <p id="output5"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="inventory-item">
+                    <div class="item-image-container">
+                        <img src="images/mocomocoheaclip.jpg" alt="coming soon" />
+                    </div>
+                    <div class="item-content">
+                        <label for="input6">coming soon</label>
+                        <div class="input-group">
+                            <input type="number" id="input6" placeholder="グラム数を入力" step="1" />
+                            <button onclick="calculate6()"><i class="fas fa-calculator"></i> 計算</button>
+                        </div>
+                        <div class="result-display">
+                            <p id="output6"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="no-results" id="noResults">
+                <i class="fas fa-search" style="font-size: 2em; margin-bottom: 15px; opacity: 0.5;"></i>
+                <p>検索結果が見つかりませんでした</p>
+            </div>
+
+            <!-- QRコードセクション -->
+            <div class="qr-section">
+                <div class="qr-title">メンバーに共有</div>
+                <img class="qr-code" src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://mentalsam.github.io/card-inventory/" alt="QRコード" />
+                <a href="https://mentalsam.github.io/card-inventory/" target="_blank" class="qr-link">
+                </a>
+            </div>
+        </div>
+
+        <footer>
+            <p>© 2025 Matsuda All rights reserved.</p>
+        </footer>
+    </div>
 
     <script>
+        // ログイン認証用の設定
+        const validCredentials = [
+            { id: "76033", password: "506" },
+            { id: "76056", password: "506" },
+            { id: "76063", password: "506" }
+        ];
+
+        // ログイン状態の確認
+        function checkLoginStatus() {
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+            if (isLoggedIn === 'true') {
+                showInventoryPage();
+            } else {
+                showLoginPage();
+            }
+        }
+
+        // ログインフォームの送信処理
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const userId = document.getElementById('userId').value;
+            const password = document.getElementById('password').value;
+            const errorMessage = document.getElementById('error-message');
+            
+            // 認証確認
+            const isValid = validCredentials.some(credential => 
+                credential.id === userId && credential.password === password
+            );
+            
+            if (isValid) {
+                // ログイン成功
+                localStorage.setItem('isLoggedIn', 'true');
+                errorMessage.textContent = '';
+                showInventoryPage();
+            } else {
+                // ログイン失敗
+                errorMessage.textContent = 'IDまたはパスワードが正しくありません';
+                document.getElementById('password').value = '';
+            }
+        });
+
+        // ログアウト処理
+        document.getElementById('logoutButton').addEventListener('click', function() {
+            localStorage.removeItem('isLoggedIn');
+            showLoginPage();
+        });
+
+        // ログインページを表示
+        function showLoginPage() {
+            document.getElementById('loginPage').style.display = 'flex';
+            document.getElementById('inventoryPage').style.display = 'none';
+        }
+
+        // 在庫管理ページを表示
+        function showInventoryPage() {
+            document.getElementById('loginPage').style.display = 'none';
+            document.getElementById('inventoryPage').style.display = 'flex';
+        }
+
         // 入力データをローカルストレージに保存する関数
         function saveData() {
             for (let i = 1; i <= 6; i++) {
@@ -513,6 +823,10 @@
 
         // ページ読み込み時にデータを復元
         window.addEventListener('load', function() {
+            // ログイン状態を確認
+            checkLoginStatus();
+            
+            // 入力データを復元
             for (let i = 1; i <= 6; i++) {
                 var inputData = localStorage.getItem(`input${i}`);
                 if (inputData !== null) {
