@@ -1,392 +1,534 @@
-
-<style>
-    :root {
-        --primary-color: #4CAF50;
-        --primary-hover: #45a049;
-        --accent-color: #FF5733;
-        --bg-color: #f8f9fa;
-        --card-bg: #ffffff;
-        --text-color: #333333;
-        --border-color: #e0e0e0;
-        --shadow: 0 4px 12px rgba(0,0,0,0.1);
-        --font-main: 'Noto Sans JP', 'Meiryo', sans-serif;
-    }
-
-    * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-    }
-
-    body {
-        font-family: var(--font-main);
-        background-color: var(--bg-color);
-        color: var(--text-color);
-        line-height: 1.6;
-    }
-
-    .header-banner {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 20px;
-        width: 100%;
-        background-color: var(--primary-color);
-        color: white;
-        padding: 15px 0;
-        margin-bottom: 30px;
-        box-shadow: var(--shadow);
-    }
-
-    .header-banner img {
-        max-width: 80px;
-        height: auto;
-        border-radius: 50%;
-        border: 3px solid white;
-        display: none; /* 画像を非表示にする */
-    }
-
-    .header-banner span {
-        font-size: 2em;
-        font-weight: bold;
-    }
-
-    .inventory-section {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 30px;
-        padding: 20px;
-        width: 100%;
-        max-width: 1000px;
-        margin: 0 auto;
-        overflow-y: auto;
-    }
-
-    .search-container {
-        position: sticky;
-        top: 0;
-        width: 100%;
-        background-color: var(--bg-color);
-        padding: 15px 0;
-        z-index: 100;
-        display: flex;
-        justify-content: center;
-    }
-
-    .search-container input[type="text"] {
-        padding: 12px 20px;
-        font-size: 1.2em;
-        width: 90%;
-        max-width: 700px;
-        border: 1px solid var(--border-color);
-        border-radius: 25px;
-        font-family: var(--font-main);
-        color: var(--text-color);
-        background-color: white;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-        transition: all 0.3s ease;
-    }
-
-    .search-container input[type="text"]:focus {
-        outline: none;
-        box-shadow: 0 0 0 2px var(--primary-color);
-    }
-
-    .inventory-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-        gap: 25px;
-        width: 100%;
-    }
-
-    .inventory-item {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        background-color: var(--card-bg);
-        padding: 20px;
-        border-radius: 15px;
-        box-shadow: var(--shadow);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        border: 1px solid var(--border-color);
-    }
-
-    .inventory-item:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 18px rgba(0,0,0,0.15);
-    }
-
-    .inventory-item img {
-        width: 100%;
-        height: 200px;
-        object-fit: contain;
-        margin-bottom: 20px;
-        border-radius: 8px;
-        background-color: #f1f1f1;
-        padding: 10px;
-    }
-
-    .inventory-item label {
-        font-size: 1.1em;
-        margin-bottom: 15px;
-        text-align: center;
-        font-weight: 600;
-        color: var(--text-color);
-    }
-
-    .input-group {
-        display: flex;
-        align-items: center;
-        width: 100%;
-        margin-bottom: 15px;
-    }
-
-    .input-group input[type="number"] {
-        padding: 10px 15px;
-        font-size: 1.1em;
-        width: 70%;
-        border: 1px solid var(--border-color);
-        border-radius: 5px 0 0 5px;
-        font-family: var(--font-main);
-        color: var(--text-color);
-        background-color: white;
-    }
-
-    .input-group button {
-        padding: 10px 15px;
-        background-color: var(--primary-color);
-        color: white;
-        border: none;
-        border-radius: 0 5px 5px 0;
-        cursor: pointer;
-        font-size: 1.1em;
-        font-family: var(--font-main);
-        transition: background-color 0.3s;
-        width: 30%;
-    }
-
-    .input-group button:hover {
-        background-color: var(--primary-hover);
-    }
-
-    .inventory-item p {
-        font-size: 1.4em;
-        font-weight: bold;
-        margin-top: 10px;
-        color: var(--accent-color);
-        word-wrap: break-word;
-        font-family: var(--font-main);
-    }
-
-    /* 単位を表示 */
-    .inventory-item p::after {
-        content: "枚 (g換算)";
-        font-size: 0.8em;
-        margin-left: 2px;
-    }
-
-    @media (max-width: 768px) {
-        .inventory-grid {
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>カード棚卸し - Modern Design</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #3a6ea5;
+            --primary-hover: #2c5282;
+            --accent-color: #ff4757;
+            --bg-color: #f5f7fa;
+            --card-bg: #ffffff;
+            --text-color: #2d3748;
+            --text-secondary: #718096;
+            --border-color: #e2e8f0;
+            --shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.05);
+            --shadow-hover: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
+            --font-main: 'Noto Sans JP', 'Meiryo', sans-serif;
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
-        
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .header-banner {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            background: linear-gradient(135deg, var(--primary-color) 0%, #1e4d8c 100%);
+            color: white;
+            padding: 20px 0;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIiBmaWxsPSJub25lIj48cGF0aCBkPSJNMzAgMzBMMCAwaDYwTDMwIDMweiIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjA1KSIvPjwvc3ZnPg==');
+            opacity: 0.1;
+        }
+
+        .header-title {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header-title i {
+            font-size: 1.8em;
+        }
+
+        .header-title span {
+            font-size: 1.8em;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .inventory-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 40px;
+            padding: 0 20px 40px;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            overflow-y: auto;
+        }
+
+        .search-container {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            background-color: var(--bg-color);
+            padding: 15px 0;
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+        }
+
+        .search-wrapper {
+            position: relative;
+            width: 90%;
+            max-width: 700px;
+        }
+
+        .search-wrapper i {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            font-size: 1.2em;
+        }
+
         .search-container input[type="text"] {
+            padding: 14px 20px 14px 50px;
             font-size: 1em;
+            width: 100%;
+            border: none;
+            border-radius: 12px;
+            font-family: var(--font-main);
+            color: var(--text-color);
+            background-color: white;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
         }
-        
+
+        .search-container input[type="text"]:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(58, 110, 165, 0.3), var(--shadow);
+        }
+
+        .inventory-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+            width: 100%;
+        }
+
+        .inventory-item {
+            display: flex;
+            flex-direction: column;
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .inventory-item:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .item-image-container {
+            height: 180px;
+            width: 100%;
+            overflow: hidden;
+            background-color: #f8fafc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .inventory-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            padding: 15px;
+            transition: var(--transition);
+        }
+
+        .inventory-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .item-content {
+            padding: 20px;
+        }
+
         .inventory-item label {
             font-size: 1em;
+            font-weight: 600;
+            color: var(--text-color);
+            display: block;
+            margin-bottom: 15px;
+            line-height: 1.4;
         }
-    }
 
-    @media (max-width: 480px) {
-        .inventory-grid {
-            grid-template-columns: 1fr;
+        .input-group {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 15px;
+            position: relative;
         }
-        
-        .header-banner span {
-            font-size: 1.5em;
+
+        .input-group input[type="number"] {
+            padding: 12px 15px;
+            font-size: 0.95em;
+            width: 70%;
+            border: 1px solid var(--border-color);
+            border-radius: 8px 0 0 8px;
+            font-family: var(--font-main);
+            color: var(--text-color);
+            background-color: white;
+            transition: var(--transition);
         }
-        
-        .header-banner img {
-            max-width: 60px;
+
+        .input-group input[type="number"]:focus {
+            outline: none;
+            border-color: var(--primary-color);
         }
-        
-        .inventory-item {
-            padding: 15px;
+
+        .input-group button {
+            padding: 12px 15px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            font-size: 0.95em;
+            font-weight: 500;
+            font-family: var(--font-main);
+            transition: var(--transition);
+            width: 30%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        
-        .inventory-item img {
-            height: 180px;
+
+        .input-group button:hover {
+            background-color: var(--primary-hover);
         }
-    }
-</style>
 
-<header class="header-banner">
-    
-    <span>カード棚卸し</span>
-</header>
-
-<div class="inventory-section">
-    <div class="search-container">
-        <input type="text" id="searchInput" placeholder="商品を検索..." />
-    </div>
-
-    <div class="inventory-grid">
-        <div class="inventory-item">
-            <img src="images/Kamen Rider Battle Gambaregens.jpg" alt="仮面ライダーバトル ガンバレジェンズ" />
-            <label for="input1">仮面ライダーバトル ガンバレジェンズ</label>
-            <div class="input-group">
-                <input type="number" id="input1" placeholder="グラム数を入力" step="1" />
-                <button onclick="calculate1()">計算</button>
-            </div>
-            <p id="output1"></p>
-        </div>
-
-        <div class="inventory-item">
-            <img src="images/Where's Anpanman.jpg" alt="アンパンマンはどーこだ？2 />
-            <label for="input2">アンパンマンはどーこだ？2</label>
-            <div class="input-group">
-                <input type="number" id="input2" placeholder="グラム数を入力" step="1" />
-                <button onclick="calculate2()">計算</button>
-            </div>
-            <p id="output2"></p>
-        </div>
-
-        <div class="inventory-item">
-            <img src="images/Pico Pico Anpanman Go 2.jpg" alt=ピコピコアンパンマンごう2 />
-            <label for="input3">ピコピコアンパンマンごう2</label>
-            <div class="input-group">
-                <input type="number" id="input3" placeholder="グラム数を入力" step="1" />
-                <button onclick="calculate3()">計算</button>
-            </div>
-            <p id="output3"></p>
-        </div>
-
-        <div class="inventory-item">
-            <img src="images/Anpanman's Taiko de Dodan 2.jpg" alt="アンパンマンのたいこでどんどん2" />
-            <label for="input4">アンパンマンのたいこでどんどん2</label>
-            <div class="input-group">
-                <input type="number" id="input4" placeholder="グラム数を入力" step="1" />
-                <button onclick="calculate4()">計算</button>
-            </div>
-            <p id="output4"></p>
-        </div>
-
-        <div class="inventory-item">
-            <img src="images/pukapukasobakawasibainu.jpg" alt="ぷかぷかそばかわ。しばいぬ@36" />
-            <label for="input5">ぷかぷかそばかわ。しばいぬ@36</label>
-            <div class="input-group">
-                <input type="number" id="input5" placeholder="グラム数を入力" step="1" />
-                <button onclick="calculate5()">計算</button>
-            </div>
-            <p id="output5"></p>
-        </div>
-
-        <div class="inventory-item">
-            <img src="images/mocomocoheaclip.jpg" alt="ふわもこヘアクリップ" />
-            <label for="input6">ふわもこヘアクリップ@35</label>
-            <div class="input-group">
-                <input type="number" id="input6" placeholder="グラム数を入力" step="1" />
-                <button onclick="calculate6()">計算</button>
-            </div>
-            <p id="output6"></p>
-        </div>
-    </div>
-</div>
-
-<footer>
-    <p>© 2025 Matsuda rights reserved.</p>
-</footer>
-
-<script>
-    // 入力データをローカルストレージに保存する関数
-    function saveData() {
-        for (let i = 1; i <= 6; i++) {
-            localStorage.setItem(`input${i}`, document.getElementById(`input${i}`).value);
+        .input-group button i {
+            margin-right: 5px;
+            font-size: 0.9em;
         }
-        localStorage.setItem('searchInput', document.getElementById("searchInput").value);
-    }
 
-    // 計算関数を共通化
-    function calculateQuantity(inputId, outputId, conversionFactor, isMultiply = false) {
-        var input = parseFloat(document.getElementById(inputId).value) || 0;
-        var output;
-        
-        if (isMultiply) {
-            output = Math.round(input / conversionFactor);
-        } else {
-            output = Math.round(input / (conversionFactor * 1000)); // kg→g変換のため1000で割る
+        .result-display {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 15px;
+            background-color: #ebf4ff;
+            border-radius: 8px;
         }
-        
-        document.getElementById(outputId).innerText = output;
-        saveData();
-    }
 
-    // 各計算ボタンのイベントハンドラ
-    function calculate1() {
-        calculateQuantity("input1", "output1", 0.00225535);
-    }
-    
-    function calculate2() {
-        calculateQuantity("input2", "output2", 0.00657);
-    }
+        .inventory-item p {
+            font-size: 1.4em;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-align: center;
+            margin: 0;
+            word-wrap: break-word;
+            font-family: var(--font-main);
+        }
 
-    function calculate3() {
-        calculateQuantity("input3", "output3", 0.0095);
-    }
+        .inventory-item p::after {
+            content: "枚 (g換算)";
+            font-size: 0.6em;
+            margin-left: 2px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
 
-    function calculate4() {
-        calculateQuantity("input4", "output4", 0.074);
-    }
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 30px;
+            color: var(--text-secondary);
+            font-size: 0.85em;
+        }
 
-    function calculate5() {
-        calculateQuantity("input5", "output5", 0.0095);
-    }
+        .no-results {
+            text-align: center;
+            padding: 40px 0;
+            color: var(--text-secondary);
+            font-size: 1.1em;
+            width: 100%;
+            display: none;
+        }
 
-    function calculate6() {
-        calculateQuantity("input6", "output6", 0.0185);
-    }
-
-    // 検索機能の改善
-    document.getElementById('searchInput').addEventListener('input', function() {
-        var filter = this.value.toUpperCase();
-        var items = document.getElementsByClassName('inventory-item');
-        var noResults = true;
-        
-        for (var i = 0; i < items.length; i++) {
-            var label = items[i].getElementsByTagName('label')[0];
-            var img = items[i].getElementsByTagName('img')[0];
+        @media (max-width: 768px) {
+            .inventory-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
             
-            if (label.innerText.toUpperCase().indexOf(filter) > -1 || 
-                img.alt.toUpperCase().indexOf(filter) > -1) {
-                items[i].style.display = "flex";
-                noResults = false;
-            } else {
-                items[i].style.display = "none";
+            .header-title span {
+                font-size: 1.6em;
             }
         }
-        
-        saveData();
-    });
 
-    // ページ読み込み時にデータを復元
-    window.addEventListener('load', function() {
-        for (let i = 1; i <= 6; i++) {
-            var inputData = localStorage.getItem(`input${i}`);
-            if (inputData !== null) {
-                document.getElementById(`input${i}`).value = inputData;
-                window[`calculate${i}`]();
+        @media (max-width: 480px) {
+            .inventory-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header-title span {
+                font-size: 1.4em;
+            }
+            
+            .header-title i {
+                font-size: 1.4em;
+            }
+            
+            .item-image-container {
+                height: 160px;
             }
         }
-        
-        var searchInput = localStorage.getItem('searchInput');
-        if (searchInput !== null) {
-            document.getElementById("searchInput").value = searchInput;
-            // トリガーイベントを発火してフィルタを適用
-            var event = new Event('input');
-            document.getElementById('searchInput').dispatchEvent(event);
+    </style>
+</head>
+<body>
+    <header class="header-banner">
+        <div class="header-title">
+            <i class="fas fa-layer-group"></i>
+            <span>カード棚卸し</span>
+        </div>
+    </header>
+
+    <div class="inventory-section">
+        <div class="search-container">
+            <div class="search-wrapper">
+                <i class="fas fa-search"></i>
+                <input type="text" id="searchInput" placeholder="商品を検索..." />
+            </div>
+        </div>
+
+        <div class="inventory-grid">
+            <div class="inventory-item">
+                <div class="item-image-container">
+                    <img src="images/Kamen Rider Battle Gambaregens.jpg" alt="仮面ライダーバトル ガンバレジェンズ" />
+                </div>
+                <div class="item-content">
+                    <label for="input1">仮面ライダーバトル ガンバレジェンズ</label>
+                    <div class="input-group">
+                        <input type="number" id="input1" placeholder="グラム数を入力" step="1" />
+                        <button onclick="calculate1()"><i class="fas fa-calculator"></i> 計算</button>
+                    </div>
+                    <div class="result-display">
+                        <p id="output1"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="inventory-item">
+                <div class="item-image-container">
+                    <img src="images/Where's Anpanman.jpg" alt="アンパンマンはどーこだ？2" />
+                </div>
+                <div class="item-content">
+                    <label for="input2">アンパンマンはどーこだ？2</label>
+                    <div class="input-group">
+                        <input type="number" id="input2" placeholder="グラム数を入力" step="1" />
+                        <button onclick="calculate2()"><i class="fas fa-calculator"></i> 計算</button>
+                    </div>
+                    <div class="result-display">
+                        <p id="output2"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="inventory-item">
+                <div class="item-image-container">
+                    <img src="images/Pico Pico Anpanman Go 2.jpg" alt="ピコピコアンパンマンごう2" />
+                </div>
+                <div class="item-content">
+                    <label for="input3">ピコピコアンパンマンごう2</label>
+                    <div class="input-group">
+                        <input type="number" id="input3" placeholder="グラム数を入力" step="1" />
+                        <button onclick="calculate3()"><i class="fas fa-calculator"></i> 計算</button>
+                    </div>
+                    <div class="result-display">
+                        <p id="output3"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="inventory-item">
+                <div class="item-image-container">
+                    <img src="images/Anpanman's Taiko de Dodan 2.jpg" alt="アンパンマンのたいこでどんどん2" />
+                </div>
+                <div class="item-content">
+                    <label for="input4">アンパンマンのたいこでどんどん2</label>
+                    <div class="input-group">
+                        <input type="number" id="input4" placeholder="グラム数を入力" step="1" />
+                        <button onclick="calculate4()"><i class="fas fa-calculator"></i> 計算</button>
+                    </div>
+                    <div class="result-display">
+                        <p id="output4"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="inventory-item">
+                <div class="item-image-container">
+                    <img src="images/pukapukasobakawasibainu.jpg" alt="ぷかぷかそばかわ。しばいぬ@36" />
+                </div>
+                <div class="item-content">
+                    <label for="input5">ぷかぷかそばかわ。しばいぬ@36</label>
+                    <div class="input-group">
+                        <input type="number" id="input5" placeholder="グラム数を入力" step="1" />
+                        <button onclick="calculate5()"><i class="fas fa-calculator"></i> 計算</button>
+                    </div>
+                    <div class="result-display">
+                        <p id="output5"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="inventory-item">
+                <div class="item-image-container">
+                    <img src="images/mocomocoheaclip.jpg" alt="ふわもこヘアクリップ" />
+                </div>
+                <div class="item-content">
+                    <label for="input6">ふわもこヘアクリップ@35</label>
+                    <div class="input-group">
+                        <input type="number" id="input6" placeholder="グラム数を入力" step="1" />
+                        <button onclick="calculate6()"><i class="fas fa-calculator"></i> 計算</button>
+                    </div>
+                    <div class="result-display">
+                        <p id="output6"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="no-results" id="noResults">
+            <i class="fas fa-search" style="font-size: 2em; margin-bottom: 15px; opacity: 0.5;"></i>
+            <p>検索結果が見つかりませんでした</p>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2025 Matsuda All rights reserved.</p>
+    </footer>
+
+    <script>
+        // 入力データをローカルストレージに保存する関数
+        function saveData() {
+            for (let i = 1; i <= 6; i++) {
+                localStorage.setItem(`input${i}`, document.getElementById(`input${i}`).value);
+            }
+            localStorage.setItem('searchInput', document.getElementById("searchInput").value);
         }
-    });
-</script>
+
+        // 計算関数を共通化
+        function calculateQuantity(inputId, outputId, conversionFactor, isMultiply = false) {
+            var input = parseFloat(document.getElementById(inputId).value) || 0;
+            var output;
+            
+            if (isMultiply) {
+                output = Math.round(input / conversionFactor);
+            } else {
+                output = Math.round(input / (conversionFactor * 1000)); // kg→g変換のため1000で割る
+            }
+            
+            document.getElementById(outputId).innerText = output;
+            saveData();
+        }
+
+        // 各計算ボタンのイベントハンドラ
+        function calculate1() {
+            calculateQuantity("input1", "output1", 0.00225535);
+        }
+        
+        function calculate2() {
+            calculateQuantity("input2", "output2", 0.00657);
+        }
+
+        function calculate3() {
+            calculateQuantity("input3", "output3", 0.0095);
+        }
+
+        function calculate4() {
+            calculateQuantity("input4", "output4", 0.074);
+        }
+
+        function calculate5() {
+            calculateQuantity("input5", "output5", 0.0095);
+        }
+
+        function calculate6() {
+            calculateQuantity("input6", "output6", 0.0185);
+        }
+
+        // 検索機能の改善
+        document.getElementById('searchInput').addEventListener('input', function() {
+            var filter = this.value.toUpperCase();
+            var items = document.getElementsByClassName('inventory-item');
+            var noResults = true;
+            
+            for (var i = 0; i < items.length; i++) {
+                var label = items[i].getElementsByTagName('label')[0];
+                var img = items[i].getElementsByTagName('img')[0];
+                
+                if (label.innerText.toUpperCase().indexOf(filter) > -1 || 
+                    img.alt.toUpperCase().indexOf(filter) > -1) {
+                    items[i].style.display = "flex";
+                    noResults = false;
+                } else {
+                    items[i].style.display = "none";
+                }
+            }
+            
+            // 検索結果がない場合のメッセージ表示
+            document.getElementById('noResults').style.display = noResults ? 'block' : 'none';
+            
+            saveData();
+        });
+
+        // ページ読み込み時にデータを復元
+        window.addEventListener('load', function() {
+            for (let i = 1; i <= 6; i++) {
+                var inputData = localStorage.getItem(`input${i}`);
+                if (inputData !== null) {
+                    document.getElementById(`input${i}`).value = inputData;
+                    window[`calculate${i}`]();
+                }
+            }
+            
+            var searchInput = localStorage.getItem('searchInput');
+            if (searchInput !== null) {
+                document.getElementById("searchInput").value = searchInput;
+                // トリガーイベントを発火してフィルタを適用
+                var event = new Event('input');
+                document.getElementById('searchInput').dispatchEvent(event);
+            }
+        });
+    </script>
+</body>
+</html>
