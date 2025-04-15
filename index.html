@@ -607,7 +607,7 @@
                     <div class="item-content">
                         <label for="input1">仮面ライダーバトル ガンバレジェンズ</label>
                         <div class="input-group">
-                            <input type="number" id="input1" placeholder="グラム数を入力" step="1" />
+                            <input type="number" id="input1" placeholder="グラム数を入力" step="1" inputmode="numeric"/>
                             <button onclick="calculate1()"><i class="fas fa-calculator"></i> 計算</button>
                         </div>
                         <div class="result-display">
@@ -621,9 +621,9 @@
                         <img src="images/Where's Anpanman.jpg" alt="アンパンマンはどーこだ？2" />
                     </div>
                     <div class="item-content">
-                        <label for="input2">アンパンマンはどーこだ？2</label>
+                        <label for="input2">アンパンマンはどーこだ？2<br>@120</label>
                         <div class="input-group">
-                            <input type="number" id="input2" placeholder="グラム数を入力" step="1" />
+                            <input type="number" id="input2" placeholder="グラム数を入力" step="1" inputmode="numeric"/>
                             <button onclick="calculate2()"><i class="fas fa-calculator"></i> 計算</button>
                         </div>
                         <div class="result-display">
@@ -637,9 +637,9 @@
                         <img src="images/Pico Pico Anpanman Go 2.jpg" alt="ピコピコアンパンマンごう2" />
                     </div>
                     <div class="item-content">
-                        <label for="input3">ピコピコアンパンマンごう2</label>
+                        <label for="input3">ピコピコアンパンマンごう2<br>@180</label>
                         <div class="input-group">
-                            <input type="number" id="input3" placeholder="グラム数を入力" step="1" />
+                            <input type="number" id="input3" placeholder="グラム数を入力" step="1" inputmode="numeric"/>
                             <button onclick="calculate3()"><i class="fas fa-calculator"></i> 計算</button>
                         </div>
                         <div class="result-display">
@@ -653,9 +653,9 @@
                         <img src="images/Anpanman's Taiko de Dodan 2.jpg" alt="アンパンマンのたいこでどんどん2" />
                     </div>
                     <div class="item-content">
-                        <label for="input4">アンパンマンのたいこでどんどん2</label>
+                        <label for="input4">アンパンマンのたいこでどんどん2<br>@120</label>
                         <div class="input-group">
-                            <input type="number" id="input4" placeholder="グラム数を入力" step="1" />
+                            <input type="number" id="input4" placeholder="グラム数を入力" step="1" inputmode="numeric"/>
                             <button onclick="calculate4()"><i class="fas fa-calculator"></i> 計算</button>
                         </div>
                         <div class="result-display">
@@ -666,12 +666,12 @@
 
                 <div class="inventory-item">
                     <div class="item-image-container">
-                        <img src="images/pukapukasobakawasibainu.jpg" alt="coming soon" />
+                        <img src="images/Pokemon Megaget.jpg" alt="coming soon" />
                     </div>
                     <div class="item-content">
-                        <label for="input5">coming soon</label>
+                        <label for="input5">ポケモンメガゲット<br>@110</label>
                         <div class="input-group">
-                            <input type="number" id="input5" placeholder="グラム数を入力" step="1" />
+                            <input type="number" id="input5" placeholder="グラム数を入力" step="1" inputmode="numeric"/>
                             <button onclick="calculate5()"><i class="fas fa-calculator"></i> 計算</button>
                         </div>
                         <div class="result-display">
@@ -682,12 +682,12 @@
 
                 <div class="inventory-item">
                     <div class="item-image-container">
-                        <img src="images/mocomocoheaclip.jpg" alt="coming soon" />
+                        <img src="images/Guru Shinkansen IC Card Set.png" alt="coming soon" />
                     </div>
                     <div class="item-content">
-                        <label for="input6">coming soon</label>
+                        <label for="input6">ぐるぐる新幹線ICカードセット<br>@120</label>
                         <div class="input-group">
-                            <input type="number" id="input6" placeholder="グラム数を入力" step="1" />
+                            <input type="number" id="input6" placeholder="グラム数を入力" step="1" inputmode="numeric"/>
                             <button onclick="calculate6()"><i class="fas fa-calculator"></i> 計算</button>
                         </div>
                         <div class="result-display">
@@ -806,23 +806,23 @@
         }
         
         function calculate2() {
-            calculateQuantity("input2", "output2", 0.00657);
+            calculateQuantity("input2", "output2", 0.0015428);
         }
 
         function calculate3() {
-            calculateQuantity("input3", "output3", 0.0095);
+            calculateQuantity("input3", "output3", 0.00154672);
         }
 
         function calculate4() {
-            calculateQuantity("input4", "output4", 0.074);
+            calculateQuantity("input4", "output4", 0.00154576);
         }
 
         function calculate5() {
-            calculateQuantity("input5", "output5", 0.0095);
+            calculateQuantity("input5", "output5", 0.001521);
         }
 
         function calculate6() {
-            calculateQuantity("input6", "output6", 0.0185);
+            calculateQuantity("input6", "output6", 0.00154832);
         }
 
         // 検索機能の改善
